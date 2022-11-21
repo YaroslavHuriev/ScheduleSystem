@@ -1,7 +1,7 @@
 ﻿import * as React from 'react';
 import { useEffect, useState } from 'react';
 import Paper from '@mui/material/Paper';
-import { ViewState } from '@devexpress/dx-react-scheduler';
+import { ViewState, GroupingState, IntegratedGrouping, IntegratedEditing } from '@devexpress/dx-react-scheduler';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from "axios";
 import CircularProgress from '@mui/material/CircularProgress';
@@ -13,7 +13,8 @@ import {
     Toolbar,
     DateNavigator,
     TodayButton,
-    Resources
+    Resources,
+    GroupingPanel
 } from '@devexpress/dx-react-scheduler-material-ui';
 
 const hourMap = [
@@ -37,21 +38,31 @@ export function Schedule(props) {
     const [loading, setLoading] = useState(true);
     const [schedulerData, setSchedulerData] = useState([]);
     const [resources, setResources] = useState([]);
+    const [grouping, setGrouping] = useState([]);
     useEffect(() => {
         axios.get(`api/schedule/${params.id}`).then((response) => {
             setSchedulerData(response.data.map(l => {
                 const dm = dayMap.find(dMap => dMap.day === l.day)
                 const hm = hourMap.find(hMap => hMap.hour === l.hour)
-                return { startDate: dm.dayString + hm.startTime, endDate: dm.dayString + hm.endTime, title: l.discipline, room: l.room, teacher: l.teacher }
+                return { startDate: dm.dayString + hm.startTime, endDate: dm.dayString + hm.endTime, title: l.discipline, room: l.room, teacher: l.teacher, group: l.group }
             }));
             setResources(...resources, [{
                 fieldName: 'room',
                 title: 'Room',
-                instances: [...new Set(response.data.map(l => ({ id: l.room, text: 'Аудиторія: ' +  l.room})))],
-            },{
+                instances: [...new Set(response.data.map(l => ({ id: l.room, text: 'Аудиторія: ' + l.room })))],
+            },
+            {
                 fieldName: 'teacher',
                 title: 'Teacher',
-                instances: [...new Set(response.data.map(l => ({ id: l.teacher, text:'Викладач: ' + l.teacher })))],
+                instances: [...new Set(response.data.map(l => ({ id: l.teacher, text: 'Викладач: ' + l.teacher })))],
+            },
+            {
+                fieldName: 'group',
+                title: 'Group',
+                instances: [...new Set(response.data.map(l => ({ id: l.group, text: 'Група: ' + l.group })))]
+            }]);
+            setGrouping([{
+                resourceName: 'group'
             }])
             setLoading(false)
         })
@@ -61,22 +72,32 @@ export function Schedule(props) {
         : <Paper sx={{mt:4} } >
             <Scheduler
                 data={schedulerData}
+                locale={'ua-UA'}
             >
                 <ViewState
                     defaultCurrentDate="2022-11-22"
+                />
+                <GroupingState
+                    grouping={grouping}
                 />
                 <DayView
                     startDayHour={8}
                     endDayHour={18}
                 />
+                <Appointments />
+                <Resources
+                    data={resources}
+                    mainResourceName="group"
+                />
+
+                <IntegratedGrouping />
+                {/*<IntegratedEditing />*/}
+
                 <Toolbar />
                 <DateNavigator />
                 <TodayButton />
-                <Appointments />
                 <AppointmentTooltip />
-                <Resources
-                    data={resources}
-                />
+                <GroupingPanel />
             </Scheduler>
         </Paper>
     return (
