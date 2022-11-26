@@ -10,10 +10,19 @@ namespace Schedule.Application.DTOs {
 		public string Name { get; set; }
 		public IEnumerable<LessonDto> Data { get; set; }
 
-		public ScheduleInputDto(string name, string data, string id) {
+		[JsonConstructor]
+		public ScheduleInputDto(string name, string id) {
 			Name = name;
-			Data = JsonConvert.DeserializeObject<IEnumerable<LessonDto>>(data);
+			//Data = JsonConvert.DeserializeObject<IEnumerable<LessonDto>>(data);
 			Id = id;
+		}
+
+		public ScheduleInputDto(string name):this() {
+			Name = name;
+		}
+
+		private ScheduleInputDto() {
+			Id = Guid.NewGuid().ToString();
 		}
 	}
 }
