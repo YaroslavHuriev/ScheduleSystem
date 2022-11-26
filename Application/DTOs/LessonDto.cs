@@ -13,5 +13,9 @@
 			Discipline = discipline;
 			Id = id;
 		}
-	}
+
+        public LessonDto()
+        {
+        }
+    }
 }

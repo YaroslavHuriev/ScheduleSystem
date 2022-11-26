@@ -6,6 +6,7 @@ using ScheduleSystem.Application.Handlers.ScheduleInputListQueryHandler;
 using ScheduleSystem.Application.Handlers.ScheduleInputQueryHandler;
 using ScheduleSystem.Application.Handlers.ScheduleLessonsByScheduleIdQueryHandler;
 using ScheduleSystem.Application.UseCases;
+using ScheduleSystem.Application.UseCases.CreateInputDataUseCase;
 using ScheduleSystem.Infrastructure;
 using ScheduleSystem.Infrastructure.LessonTimeRepository;
 using ScheduleSystem.Infrastructure.Options;
@@ -30,6 +31,10 @@ builder.Services.AddTransient<IScheduleLessonsByScheduleIdQueryHandler, Schedule
 builder.Services.AddTransient<ILessonTimeRepository, LessonTimeRepository>();
 builder.Services.AddTransient<IScheduleRepository, ScheduleRepository>();
 builder.Services.AddTransient<IGenerateScheduleUseCase, GenerateScheduleUseCase>();
+builder.Services.AddTransient<ICreateInputDataUseCase, CreateInputDataUseCase>();
+builder.Services.AddTransient<ILessonsListQueryHandler, LessonsListQueryHandler>();
+builder.Services.AddTransient<ILessonRepository, LessonRepository>();
+builder.Services.AddTransient<IDeleteInputDataUseCase, DeleteInputDataUseCase>();
 builder.Services.AddScoped<IDbConnection>(sp => new NpgsqlConnection(Environment.GetEnvironmentVariable("POSTGRES_CONN_STRING")));
 var app = builder.Build();
 
