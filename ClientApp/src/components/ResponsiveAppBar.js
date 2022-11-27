@@ -12,14 +12,24 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-const pages = ['fetch-data'];
+const pages = [
+    {
+        path: 'fetch-data',
+        label: 'Вхідні дані'
+    },
+    {
+        path: 'schedule',
+        label: 'Згенеровані розклади'
+    },
+];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function ResponsiveAppBar() {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
+    const navigate = useNavigate();
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
@@ -34,6 +44,11 @@ function ResponsiveAppBar() {
 
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
+    };
+
+    const handleMenuItemClick = (path) => {
+        setAnchorElNav(null);
+        navigate(path)
     };
 
     return (
@@ -88,9 +103,12 @@ function ResponsiveAppBar() {
                                 display: { xs: 'block', md: 'none' },
                             }}
                         >
-                            {pages.map((page) => (
-                                    <Link to={page}>{page}</Link>
-                            ))}
+                            {pages.map((page) => {
+                                console.log(page)
+                                return (<MenuItem key={page.path} onClick={() => handleMenuItemClick(page.path)}>
+                                    <Typography textAlign="center">{page.label}</Typography>
+                                </MenuItem>)
+                            })}
                         </Menu>
                     </Box>
                     <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
@@ -114,13 +132,13 @@ function ResponsiveAppBar() {
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                         {pages.map((page) => (
-                            <Link style={{ textDecoration: 'none' }} to={page}>
+                            <Link style={{ textDecoration: 'none' }} to={page.path}>
                                 <Button
-                                    key={page}
-                                    onClick={handleCloseNavMenu}
+                                    key={page.path}
+                                    onClick={() => handleCloseNavMenu}
                                     sx={{ my: 2, color: 'white', display: 'block' }}
                                 >
-                                    {page}
+                                    {page.label}
                                 </Button>
                             </Link>
                         ))}

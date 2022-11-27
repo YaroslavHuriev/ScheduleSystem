@@ -40,7 +40,7 @@ export function Schedule(props) {
     const [resources, setResources] = useState([]);
     const [grouping, setGrouping] = useState([]);
     useEffect(() => {
-        axios.get(`api/schedule/${params.id}`).then((response) => {
+        axios.get(`api/schedules/${params.id}`).then((response) => {
             setSchedulerData(response.data.map(l => {
                 const dm = dayMap.find(dMap => dMap.day === l.day)
                 const hm = hourMap.find(hMap => hMap.hour === l.hour)

@@ -32,7 +32,7 @@ const columns = [
 
 const getRowId = row => row.id;
 
-export function FetchData(props) {
+export function SchedulesList(props) {
     const [rows, setRows] = useState([]);
     const [loading, setLoading] = useState(true);
     const [snackbarState, setSnackbarState] = useState({
@@ -42,7 +42,7 @@ export function FetchData(props) {
 
     const navigate = useNavigate();
     useEffect(() => {
-        axios.get('scheduleinputdata').then((response) => {
+        axios.get('api/schedules').then((response) => {
             setRows(response.data);
             setLoading(false)
         })
@@ -58,36 +58,17 @@ export function FetchData(props) {
     const TableRow = ({ row, ...restProps }) => (
         <Table.Row
             {...restProps}
-            onClick={() => navigate(`/scheduleinputdata/${row.id}`)}
+            onClick={() =>navigate(`/schedule/${row.id}`)}
             style={{
                 cursor: 'pointer'
             }}
         />
     );
 
-
     const commitChanges = ({ added, changed, deleted }) => {
         let changedRows;
-        if (added) {
-            axios.post('scheduleinputdata', { name: added[0].name }).then((response) => {
-                setSnackbarState({ open: true, message: 'Вхідні дані успішно збережені!' })
-                const startingAddedId = response.data.id;
-                changedRows = [
-                    ...rows,
-                    ...[{
-                        id: startingAddedId,
-                        ...added[0],
-                    }],
-                ];
-                setRows(changedRows);
-            })
-
-        }
-        if (changed) {
-            changedRows = rows.map(row => (changed[row.id] ? { ...row, ...changed[row.id] } : row));
-        }
         if (deleted) {
-            axios.delete(`scheduleinputdata/${deleted[0]}`).then((response) => {
+            axios.delete(`api/schedules/${deleted[0]}`).then((response) => {
                 setSnackbarState({ open: true, message: 'Вхідні дані успішно видалені!' })
                 const deletedSet = new Set(deleted);
                 changedRows = rows.filter(row => !deletedSet.has(row.id));
@@ -112,6 +93,7 @@ export function FetchData(props) {
                     defaultCurrentPage={0}
                     pageSize={5}
                 />
+                
                 <IntegratedPaging />
                 <EditingState
                     onCommitChanges={commitChanges}
@@ -120,17 +102,11 @@ export function FetchData(props) {
                 <TableHeaderRow />
                 <TableEditRow />
                 <TableEditColumn
-                    showAddCommand
                     showDeleteCommand
                     messages={editColumnMessages}
                 />
                 <PagingPanel />
             </Grid>
-            <SuccessSnackBar
-                open={snackbarState.open}
-                message={snackbarState.message}
-                handleClose={handleSnackbarClose}
-            ></SuccessSnackBar>
         </Box>;
 
     return (
