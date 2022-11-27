@@ -1,6 +1,6 @@
 using ScheduleSystem.Application.DTOs;
 
-interface ILessonsListQueryHandler
+public interface ILessonsListQueryHandler
 {
     Task<IEnumerable<LessonDto>> Handle(string inputDataId);
 }
