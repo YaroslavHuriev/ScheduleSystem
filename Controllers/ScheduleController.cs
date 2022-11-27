@@ -13,25 +13,29 @@ using ScheduleSystem.Controllers.Requests;
 namespace ScheduleSystem.Controllers {
 	[Route("api/[controller]")]
 	[ApiController]
-	public class ScheduleController : ControllerBase {
+	public class SchedulesController : ControllerBase {
 		private readonly IGenerateScheduleUseCase _generateSchedule;
 		private readonly IScheduleLessonsByScheduleIdQueryHandler _scheduleLessonsByScheduleIdQuery;
+		private readonly IScheduleListQueryHandler _scheduleListQuery;
 
-		public ScheduleController(IGenerateScheduleUseCase generateSchedule, IScheduleLessonsByScheduleIdQueryHandler scheduleLessonsByScheduleIdQuery) {
-			_generateSchedule = generateSchedule;
-			_scheduleLessonsByScheduleIdQuery = scheduleLessonsByScheduleIdQuery;
-		}
+        public SchedulesController(IGenerateScheduleUseCase generateSchedule, IScheduleLessonsByScheduleIdQueryHandler scheduleLessonsByScheduleIdQuery, IScheduleListQueryHandler scheduleListQuery)
+        {
+            _generateSchedule = generateSchedule;
+            _scheduleLessonsByScheduleIdQuery = scheduleLessonsByScheduleIdQuery;
+            _scheduleListQuery = scheduleListQuery;
+        }
 
-		// GET: api/<ValuesController>
-		[HttpGet]
-		public IEnumerable<string> Get() {
-			return new string[] { "value1", "value2" };
-		}
-
-		// GET api/<ValuesController>/5
-		[HttpGet("{id}")]
+        // GET api/<ValuesController>/5
+        [HttpGet("{id}")]
 		public async Task<IEnumerable<LessonWithTimeDto>> Get([FromRoute, Required, ValidGuid]string id) {
 			return await _scheduleLessonsByScheduleIdQuery.Handle(id);
+		}
+
+		[HttpGet]
+		public async Task<ActionResult<IEnumerable<ScheduleDto>>> GetAsync()
+		{
+			var result = await _scheduleListQuery.Handle();
+			return Ok(result);
 		}
 
 		// POST api/<ValuesController>

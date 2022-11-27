@@ -9,5 +9,9 @@
 			Name = name;
 			Lessons = lessons;
 		}
-	}
+
+        public ScheduleDto()
+        {
+        }
+    }
 }

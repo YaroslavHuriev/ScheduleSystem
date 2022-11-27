@@ -23,5 +23,17 @@ namespace ScheduleSystem.Infrastructure.ScheduleRepository {
 			await _connection.ExecuteAsync(command);
 			_connection.Close();
 		}
+
+		public async Task<IEnumerable<ScheduleDto>> GetScheduleList() {
+			if (_connection.State != ConnectionState.Open) {
+				_connection.Open();
+			}
+			var query = @$"SELECT ""Id"", ""Name""
+				FROM schedule.""Schedule"";";
+			var command = new CommandDefinition(query);
+			var dbos = await _connection.QueryAsync<ScheduleDbo>(command);
+			_connection.Close();
+			return dbos.Select(dbo => dbo.ToDto());
+		}
 	}
 }
