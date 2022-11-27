@@ -15,9 +15,6 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "Microsoft.AspNetCore.SpaProxy",
-        "MONGODB_CONN_STRING": "mongodb://localhost:27017",
-        "SCHEDULE_DB_NAME": "Schedule",
-        "SCHEDULE_INPUT_COLLECTION_NAME": "Input Data",
         "POSTGRES_CONN_STRING": "Host=localhost;Username=postgres;Password=admin;Database=schedule"
       }
     },
@@ -27,9 +24,6 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "Microsoft.AspNetCore.SpaProxy",
-        "MONGODB_CONN_STRING": "mongodb://localhost:27017",
-        "SCHEDULE_DB_NAME": "Schedule",
-        "SCHEDULE_INPUT_COLLECTION_NAME": "Input Data",
         "POSTGRES_CONN_STRING": "Host=localhost;Username=postgres;Password=admin;Database=schedule"
       }
     }
