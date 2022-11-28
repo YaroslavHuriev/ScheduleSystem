@@ -9,16 +9,19 @@ namespace ScheduleSystem.Application.UseCases {
 		private readonly IScheduleInputRepository _scheduleInputRepository;
 		private readonly IScheduleRepository _scheduleRepository;
 		private readonly ILessonTimeRepository _lessonTimeRepository;
+		private readonly ILessonRepository _lessonRepository;
 
-		public GenerateScheduleUseCase(IScheduleInputRepository scheduleInputRepository, IScheduleRepository scheduleRepository, ILessonTimeRepository lessonTimeRepository) {
-			_scheduleInputRepository = scheduleInputRepository;
-			_scheduleRepository = scheduleRepository;
-			_lessonTimeRepository = lessonTimeRepository;
-		}
+        public GenerateScheduleUseCase(IScheduleInputRepository scheduleInputRepository, IScheduleRepository scheduleRepository, ILessonTimeRepository lessonTimeRepository, ILessonRepository lessonRepository)
+        {
+            _scheduleInputRepository = scheduleInputRepository;
+            _scheduleRepository = scheduleRepository;
+            _lessonTimeRepository = lessonTimeRepository;
+            _lessonRepository = lessonRepository;
+        }
 
-		public async Task<string> Execute(string inputDataId) {
-			var inputData = await _scheduleInputRepository.GetById(inputDataId);
-			var lessons = inputData.Data.Select(d => new Lessоn(d.Group, d.Teacher, d.Room, d.Discipline, d.Id)).ToList();
+        public async Task<string> Execute(string inputDataId) {
+			var lessonsResult = await _lessonRepository.GetLessonsByInputDataId(inputDataId);
+			var lessons = lessonsResult.Select(d => new Lessоn(d.Group, d.Teacher, d.Room, d.Discipline, d.Id)).ToList();
 			var uniqueGroups = lessons.Select(g => g.Group).Distinct().ToList();
 			var solver = new Solver();//створюємо солвер
 

@@ -35,5 +35,16 @@ namespace ScheduleSystem.Infrastructure.ScheduleRepository {
 			_connection.Close();
 			return dbos.Select(dbo => dbo.ToDto());
 		}
+
+		public async Task DeleteScheduleById(string id) {
+			if (_connection.State != ConnectionState.Open) {
+				_connection.Open();
+			}
+			var query = @$"DELETE FROM schedule.""Schedule""
+				WHERE ""Schedule"".""Id""='{id}';";
+			var command = new CommandDefinition(query);
+			var dbos = await _connection.ExecuteAsync(command);
+			_connection.Close();
+		}
 	}
 }
