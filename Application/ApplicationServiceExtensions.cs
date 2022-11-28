@@ -11,7 +11,12 @@ public static class ApplicationServiceExtensions
         services.AddTransient<IGenerateScheduleUseCase, GenerateScheduleUseCase>();
         services.AddTransient<ICreateInputDataUseCase, CreateInputDataUseCase>();
         services.AddTransient<ICreateLessonUseCase, CreateLessonUseCase>();
+        services.AddTransient<ICreateGroupUseCase, CreateGroupUseCase>();
         services.AddTransient<IDeleteInputDataUseCase, DeleteInputDataUseCase>();
+        services.AddTransient<IDeleteScheduleByIdUseCase, DeleteScheduleByIdUseCase>();
+        services.AddTransient<IDeleteGroupUseCase, DeleteGroupUseCase>();
+        services.AddTransient<ICreateTeacherUseCase, CreateTeacherUseCase>();
+        services.AddTransient<IDeleteTeacherUseCase, DeleteTeacherUseCase>();
         return services;
     }
 

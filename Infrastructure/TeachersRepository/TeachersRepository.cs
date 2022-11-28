@@ -28,4 +28,31 @@ public class TeachersRepository : ITeachersRepository
         _connection.Close();
         return dbos.Select(dbo => dbo.ToDto());
     }
+
+    public async Task CreateTeacher(string id, string firstName, string surname)
+    {
+        if (_connection.State != ConnectionState.Open)
+        {
+            _connection.Open();
+        }
+        var query = @$"INSERT INTO schedule.""Teacher""(
+	        ""Id"", ""FirstName"", ""Surname""))
+            VALUES ('{id}', '{firstName}, '{surname}');";
+        var command = new CommandDefinition(query);
+        await _connection.ExecuteAsync(command);
+        _connection.Close();
+    }
+
+    public async Task DeleteTeacherById(string id)
+    {
+        if (_connection.State != ConnectionState.Open)
+        {
+            _connection.Open();
+        }
+        var query = @$"DELETE FROM schedule.""Teacher""
+	        WHERE schedule.""Teacher"".""Id""='{id}';";
+        var command = new CommandDefinition(query);
+        await _connection.ExecuteAsync(command);
+        _connection.Close();
+    }
 }
