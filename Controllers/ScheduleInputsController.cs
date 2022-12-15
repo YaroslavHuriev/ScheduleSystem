@@ -12,15 +12,15 @@ using ScheduleSystem.Controllers.Requests;
 namespace ScheduleSystem.Controllers {
 	[Authorize(Roles = "Admin")]
 	[ApiController]
-	[Route("[controller]")]
-	public class ScheduleInputDataController : ControllerBase {
-		private readonly ILogger<ScheduleInputDataController> _logger;
+	[Route("api/schedule/inputs")]
+	public class ScheduleInputsController : ControllerBase {
+		private readonly ILogger<ScheduleInputsController> _logger;
 		private readonly IScheduleInputListQueryHandler _scheduleInputListQuery;
 		private readonly IScheduleInputQueryHandler _scheduleInputQuery;
 		private readonly ICreateInputDataUseCase _createInputData;
 		private readonly IDeleteInputDataUseCase _deleteInputData;
 
-        public ScheduleInputDataController(ILogger<ScheduleInputDataController> logger, IScheduleInputListQueryHandler scheduleInputListQuery, IScheduleInputQueryHandler scheduleInputQuery, ICreateInputDataUseCase createInputData, IDeleteInputDataUseCase deleteInputData)
+        public ScheduleInputsController(ILogger<ScheduleInputsController> logger, IScheduleInputListQueryHandler scheduleInputListQuery, IScheduleInputQueryHandler scheduleInputQuery, ICreateInputDataUseCase createInputData, IDeleteInputDataUseCase deleteInputData)
         {
             _logger = logger;
             _scheduleInputListQuery = scheduleInputListQuery;

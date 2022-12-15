@@ -44,7 +44,7 @@ export function FetchData(props) {
     const navigate = useNavigate();
     useEffect(() => {
         console.log(axios.defaults.headers)
-        axios.get('scheduleinputdata').then((response) => {
+        axios.get('api/schedule/inputs').then((response) => {
             setRows(response.data);
             setLoading(false)
         })
@@ -68,7 +68,7 @@ export function FetchData(props) {
     const commitChanges = ({ added, changed, deleted }) => {
         let changedRows;
         if (added) {
-            axios.post('scheduleinputdata', { name: added[0].name }).then((response) => {
+            axios.post('api/schedule/inputs', { name: added[0].name }).then((response) => {
                 setSnackbarState({ open: true, message: 'Вхідні дані успішно збережені!' })
                 const startingAddedId = response.data.id;
                 changedRows = [
@@ -86,7 +86,7 @@ export function FetchData(props) {
             changedRows = rows.map(row => (changed[row.id] ? { ...row, ...changed[row.id] } : row));
         }
         if (deleted) {
-            axios.delete(`scheduleinputdata/${deleted[0]}`).then((response) => {
+            axios.delete(`api/schedule/inputs/${deleted[0]}`).then((response) => {
                 setSnackbarState({ open: true, message: 'Вхідні дані успішно видалені!' })
                 const deletedSet = new Set(deleted);
                 changedRows = rows.filter(row => !deletedSet.has(row.id));

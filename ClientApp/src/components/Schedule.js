@@ -1,8 +1,8 @@
 ﻿import * as React from 'react';
 import { useEffect, useState } from 'react';
 import Paper from '@mui/material/Paper';
-import { ViewState, GroupingState, IntegratedGrouping, IntegratedEditing } from '@devexpress/dx-react-scheduler';
-import { useParams, useNavigate } from 'react-router-dom';
+import { ViewState, GroupingState, IntegratedGrouping } from '@devexpress/dx-react-scheduler';
+import { useParams } from 'react-router-dom';
 import axios from './AxiosInterceptor'
 import CircularProgress from '@mui/material/CircularProgress';
 import {
