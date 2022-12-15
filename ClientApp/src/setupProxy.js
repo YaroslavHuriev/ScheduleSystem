@@ -9,7 +9,9 @@ const context =  [
   "/api/schedules",
   "/api/lessons",
   "/api/teachers",
-  "/api/groups"
+  "/api/groups",
+  "/api/login",
+  "/api/users"
 ];
 
 module.exports = function(app) {

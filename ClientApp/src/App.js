@@ -1,22 +1,30 @@
-import React, { Component } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import AppRoutes from './AppRoutes';
 import { Layout } from './components/Layout';
 import './custom.css';
+import { AxiosInterceptor } from './components/AxiosInterceptor';
 
-export default class App extends Component {
-  static displayName = App.name;
+export default function App() {
 
-  render() {
-    return (
-      <Layout>
+  const token = localStorage.getItem("token");
+  const navigate = useNavigate();
+  useEffect(() => {
+    if(!token){
+      navigate('/login');
+    }
+}, [])
+
+  return (
+    <Layout>
+      <AxiosInterceptor>
         <Routes>
           {AppRoutes.map((route, index) => {
             const { element, ...rest } = route;
             return <Route key={index} {...rest} element={element} />;
           })}
         </Routes>
-      </Layout>
-    );
-  }
+      </AxiosInterceptor>
+    </Layout>
+  );
 }
