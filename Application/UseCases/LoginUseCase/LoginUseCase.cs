@@ -20,6 +20,7 @@ public class LoginUseCase : ILoginUseCase
             var generatedToken = _tokenService.BuildToken(
                 _config["Jwt:Key"].ToString(),
                 _config["Jwt:Issuer"].ToString(),
+                _config["Jwt:Audience"].ToString(),
                 validUser);
             
             return generatedToken;
