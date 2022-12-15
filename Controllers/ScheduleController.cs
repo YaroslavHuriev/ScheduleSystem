@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using ScheduleSystem.Application.DTOs;
@@ -29,13 +29,14 @@ namespace ScheduleSystem.Controllers
             _deleteSchedule = deleteSchedule;
         }
 
-        // GET api/<ValuesController>/5
-        [HttpGet("{id}")]
+        [Authorize(Roles = "Admin,User")]
+        [HttpGet("{id}/lessons")]
         public async Task<IEnumerable<LessonWithTimeDto>> Get([FromRoute, Required, ValidGuid] string id)
         {
             return await _scheduleLessonsByScheduleIdQuery.Handle(id);
         }
 
+        [Authorize(Roles = "Admin,User")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ScheduleDto>>> GetAsync()
         {
@@ -43,7 +44,7 @@ namespace ScheduleSystem.Controllers
             return Ok(result);
         }
 
-        // POST api/<ValuesController>
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Post([Required] GenerateScheduleRequest request)
         {
@@ -51,12 +52,7 @@ namespace ScheduleSystem.Controllers
             return Created("api/schedules", id);
         }
 
-        // PUT api/<ValuesController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteById([FromRoute, Required] string id)
         {

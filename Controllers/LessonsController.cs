@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ScheduleSystem.Application.DTOs;
 
@@ -7,6 +7,7 @@ using ScheduleSystem.Application.DTOs;
 
 namespace ScheduleSystem.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class LessonsController : ControllerBase

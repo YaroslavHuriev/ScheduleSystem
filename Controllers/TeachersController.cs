@@ -1,8 +1,10 @@
 namespace ScheduleSystem.Controllers
 {
     using System.ComponentModel.DataAnnotations;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
+    [Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class TeachersController : ControllerBase

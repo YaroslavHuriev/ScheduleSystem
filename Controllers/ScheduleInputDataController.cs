@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using Schedule.Application.DTOs;
@@ -10,6 +10,7 @@ using ScheduleSystem.Application.UseCases.CreateInputDataUseCase;
 using ScheduleSystem.Controllers.Requests;
 
 namespace ScheduleSystem.Controllers {
+	[Authorize(Roles = "Admin")]
 	[ApiController]
 	[Route("[controller]")]
 	public class ScheduleInputDataController : ControllerBase {

@@ -1,9 +1,11 @@
 namespace ScheduleSystem.Controllers
 {
     using System.ComponentModel.DataAnnotations;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using ScheduleSystem.Common.Attributes;
 
+    [Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class GroupsController : ControllerBase
@@ -34,7 +36,7 @@ namespace ScheduleSystem.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteGroup([FromRoute, ValidGuid]string id)
+        public async Task<IActionResult> DeleteGroup([FromRoute, ValidGuid] string id)
         {
             await _deleteGroup.Execute(id);
             return Ok();
