@@ -7,8 +7,8 @@ export class Layout extends Component {
 
   render() {
     return (
-        <div>
-            <ResponsiveAppBar />
+      <div>
+        <ResponsiveAppBar />
         <Container>
           {this.props.children}
         </Container>

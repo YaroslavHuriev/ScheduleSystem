@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
-import axios from "axios";
 import { EditingState } from '@devexpress/dx-react-grid';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useNavigate } from "react-router-dom";
@@ -17,13 +16,15 @@ import {
     PagingPanel,
 } from '@devexpress/dx-react-grid-material-ui';
 import { SuccessSnackBar } from './SuccessSnackBar';
-
+import { Paper } from '@mui/material';
+import axios from './AxiosInterceptor'
+import { TableRow } from './TableRow';
 const editColumnMessages = {
     addCommand: 'Додати',
     editCommand: 'Редагувати',
     deleteCommand: 'Видалити',
     commitCommand: 'Зберегти',
-    cancelCommand: 'Відмінити',
+    cancelCommand: 'Відмінити'
 };
 
 const columns = [
@@ -42,6 +43,7 @@ export function FetchData(props) {
 
     const navigate = useNavigate();
     useEffect(() => {
+        console.log(axios.defaults.headers)
         axios.get('scheduleinputdata').then((response) => {
             setRows(response.data);
             setLoading(false)
@@ -55,13 +57,10 @@ export function FetchData(props) {
         });
     };
 
-    const TableRow = ({ row, ...restProps }) => (
-        <Table.Row
+    const Row = ({ row, ...restProps }) => (
+        <TableRow
             {...restProps}
             onClick={() => navigate(`/scheduleinputdata/${row.id}`)}
-            style={{
-                cursor: 'pointer'
-            }}
         />
     );
 
@@ -116,7 +115,7 @@ export function FetchData(props) {
                 <EditingState
                     onCommitChanges={commitChanges}
                 />
-                <Table rowComponent={TableRow} />
+                <Table rowComponent={Row} />
                 <TableHeaderRow />
                 <TableEditRow />
                 <TableEditColumn

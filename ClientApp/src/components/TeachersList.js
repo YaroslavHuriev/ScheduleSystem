@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
-import axios from "axios";
+import axios from './AxiosInterceptor'
 import { EditingState } from '@devexpress/dx-react-grid';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useNavigate } from "react-router-dom";

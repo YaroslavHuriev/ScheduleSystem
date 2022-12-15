@@ -17,6 +17,8 @@ public static class ApplicationServiceExtensions
         services.AddTransient<IDeleteGroupUseCase, DeleteGroupUseCase>();
         services.AddTransient<ICreateTeacherUseCase, CreateTeacherUseCase>();
         services.AddTransient<IDeleteTeacherUseCase, DeleteTeacherUseCase>();
+        services.AddTransient<ILoginUseCase, LoginUseCase>();
+        services.AddTransient<ICreateUserUseCase, CreateUserUseCase>();
         return services;
     }
 

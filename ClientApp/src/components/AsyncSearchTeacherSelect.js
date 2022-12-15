@@ -4,14 +4,14 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { useEffect, useState, Fragment } from 'react';
 import axios from './AxiosInterceptor'
 
-export function AsyncSearchSelect(props) {
+export function AsyncSearchTeacherSelect(props) {
     const [open, setOpen] = useState(false);
     const [options, setOptions] = useState([]);
     const [loading, setLoading] = useState(false);
 
     const handleInputChange = (e) => {
         setLoading(true)
-        axios.get(props.dataPath + `?searchString=${e.target.value}`).then((response) => {
+        axios.get(`api/teachers?searchString=${e.target.value}`).then((response) => {
             setOptions(response.data)
             setLoading(false)
         })
@@ -27,7 +27,7 @@ export function AsyncSearchSelect(props) {
         <Autocomplete
             id="asynchronous-demo"
             open={open}
-            name={props.name}
+            name='teacher'
             filterOptions={(x) => x}
             onOpen={() => {
                 setOpen(true);
@@ -35,17 +35,17 @@ export function AsyncSearchSelect(props) {
             onClose={() => {
                 setOpen(false);
             }}
-            isOptionEqualToValue={(option, value) => option[props.optionName] === value[props.optionName]}
-            getOptionLabel={(option) => option[props.optionName]}
+            isOptionEqualToValue={(option, value) => option.surname + option.firstName === value.surname + value.firstName}
+            getOptionLabel={(option) => option.surname + ' ' + option.firstName}
             options={options}
-            onChange={(e, v) => props.onChange({ target: { name: props.name, value: v ? v.id : '' } })}
+            onChange={(e, v) => props.onChange({ target: { name: 'teacher', value: v ? v.id : '' } })}
             loading={loading}
             renderInput={(params) => (
                 <TextField
                     {...params}
                     margin="normal"
                     onChange={handleInputChange}
-                    label={props.label}
+                    label='Викладач'
                     InputProps={{
                         ...params.InputProps,
                         endAdornment: (

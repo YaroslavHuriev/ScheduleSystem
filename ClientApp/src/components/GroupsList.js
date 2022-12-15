@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
-import axios from "axios";
 import { EditingState } from '@devexpress/dx-react-grid';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useNavigate } from "react-router-dom";
@@ -17,6 +16,7 @@ import {
     PagingPanel,
 } from '@devexpress/dx-react-grid-material-ui';
 import { SuccessSnackBar } from './SuccessSnackBar';
+import axios from './AxiosInterceptor'
 
 const editColumnMessages = {
     addCommand: 'Додати',
@@ -106,7 +106,7 @@ export function GroupsList(props) {
                 <EditingState
                     onCommitChanges={commitChanges}
                 />
-                <Table />
+                <Table messages={{noData:'Немає даних'}} />
                 <TableHeaderRow />
                 <TableEditRow />
                 <TableEditColumn

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
-import axios from "axios";
 import { EditingState } from '@devexpress/dx-react-grid';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useNavigate } from "react-router-dom";
@@ -16,7 +15,9 @@ import {
     TableEditColumn,
     PagingPanel,
 } from '@devexpress/dx-react-grid-material-ui';
+import axios from './AxiosInterceptor'
 import { SuccessSnackBar } from './SuccessSnackBar';
+import { TableRow } from './TableRow';
 
 const editColumnMessages = {
     addCommand: 'Додати',
@@ -42,6 +43,7 @@ export function SchedulesList(props) {
 
     const navigate = useNavigate();
     useEffect(() => {
+        console.log(axios.defaults.headers.common["Authorization"])
         axios.get('api/schedules').then((response) => {
             setRows(response.data);
             setLoading(false)
@@ -55,13 +57,10 @@ export function SchedulesList(props) {
         });
     };
 
-    const TableRow = ({ row, ...restProps }) => (
-        <Table.Row
+    const Row = ({ row, ...restProps }) => (
+        <TableRow
             {...restProps}
             onClick={() =>navigate(`/schedule/${row.id}`)}
-            style={{
-                cursor: 'pointer'
-            }}
         />
     );
 
@@ -69,7 +68,7 @@ export function SchedulesList(props) {
         let changedRows;
         if (deleted) {
             axios.delete(`api/schedules/${deleted[0]}`).then((response) => {
-                setSnackbarState({ open: true, message: 'Вхідні дані успішно видалені!' })
+                setSnackbarState({ open: true, message: 'Розклад успішно видалений!' })
                 const deletedSet = new Set(deleted);
                 changedRows = rows.filter(row => !deletedSet.has(row.id));
                 setRows(changedRows);
@@ -98,7 +97,7 @@ export function SchedulesList(props) {
                 <EditingState
                     onCommitChanges={commitChanges}
                 />
-                <Table rowComponent={TableRow} />
+                <Table rowComponent={Row} />
                 <TableHeaderRow />
                 <TableEditRow />
                 <TableEditColumn

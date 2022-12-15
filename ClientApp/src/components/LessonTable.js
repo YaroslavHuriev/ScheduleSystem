@@ -1,6 +1,6 @@
 ﻿import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
-import axios from "axios";
+import axios from './AxiosInterceptor'
 import { EditingState } from '@devexpress/dx-react-grid';
 import {
     PagingState,
@@ -28,6 +28,7 @@ import {
     Plugin, Template, TemplateConnector, TemplatePlaceholder,
 } from '@devexpress/dx-react-core';
 import { AsyncSearchSelect } from './AsyncSearchSelect';
+import { AsyncSearchTeacherSelect } from './AsyncSearchTeacherSelect';
 
 const columns = [
     { name: 'group', title: 'Група' },
@@ -41,6 +42,7 @@ const TableRow = ({ row, ...restProps }) => (
         {...restProps}
         // onClick={() => navigate(`/scheduleinputdata/${row.id}`)}
         style={{
+            
             cursor: 'pointer'
         }}
     />
@@ -61,11 +63,7 @@ const Popup = ({
             <MUIGrid container spacing={3}>
                 <MUIGrid item xs={6}>
                     <FormGroup>
-                        <AsyncSearchSelect
-                            dataPath='api/teachers'
-                            optionName='fullName'
-                            label="Викладач"
-                            name="teacher"
+                        <AsyncSearchTeacherSelect
                             onChange={onChange}
                         />
                         <TextField
@@ -249,12 +247,13 @@ export function LessonTable(props) {
                     <EditingState
                         onCommitChanges={commitChanges}
                     />
-                    <Table rowComponent={TableRow} />
+                    <Table messages={{noData:'Немає даних'}} rowComponent={TableRow}
+                     />
                     <TableHeaderRow />
                     {/* <TableEditRow /> */}
                     <TableEditColumn
                         showAddCommand
-                        showEditCommand
+                        showDeleteCommand
                     />
                     <PopupEditing popupComponent={Popup} />
                     <PagingPanel />
@@ -264,8 +263,10 @@ export function LessonTable(props) {
                 <LoadingButton
                     onClick={() => {
                         setButtonLoading(!buttonLoading)
-                        navigate('/schedule/97047616-ea54-4a58-8ec5-81fec661ade5')
-                        //axios.post('api/schedule', { inputDataId: params.id })
+                        axios.post('api/schedules', { inputDataId: params.id }).then((response) => {
+                            console.log(response)
+                            navigate(`/schedule/${response.data}`)
+                        })
                     }}
                     loading={buttonLoading}
                     loadingPosition="end"
@@ -275,9 +276,6 @@ export function LessonTable(props) {
                 >
                     Згенерувати розклад
                 </LoadingButton>
-                {/*<Button onClick={() => {*/}
-                {/*    axios.post('api/schedule', { inputDataId: params.id })*/}
-                {/*}} style={{ lineHeight: "12px" }} variant="contained" sx={{height:32}}>Згенерувати розклад</Button>*/}
             </MUIGrid>
         </MUIGrid>;
 

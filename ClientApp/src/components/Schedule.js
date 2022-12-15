@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import Paper from '@mui/material/Paper';
 import { ViewState, GroupingState, IntegratedGrouping, IntegratedEditing } from '@devexpress/dx-react-scheduler';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from "axios";
+import axios from './AxiosInterceptor'
 import CircularProgress from '@mui/material/CircularProgress';
 import {
     Scheduler,
@@ -40,7 +40,7 @@ export function Schedule(props) {
     const [resources, setResources] = useState([]);
     const [grouping, setGrouping] = useState([]);
     useEffect(() => {
-        axios.get(`api/schedules/${params.id}`).then((response) => {
+        axios.get(`api/schedules/${params.id}/lessons`).then((response) => {
             setSchedulerData(response.data.map(l => {
                 const dm = dayMap.find(dMap => dMap.day === l.day)
                 const hm = hourMap.find(hMap => hMap.hour === l.hour)
@@ -49,17 +49,17 @@ export function Schedule(props) {
             setResources(...resources, [{
                 fieldName: 'room',
                 title: 'Room',
-                instances: [...new Set(response.data.map(l => ({ id: l.room, text: 'Аудиторія: ' + l.room })))],
+                instances: [...new Set(response.data.map(l => l.room))].map(room => ({ id: room, text: 'Аудиторія: ' + room })),
             },
             {
                 fieldName: 'teacher',
                 title: 'Teacher',
-                instances: [...new Set(response.data.map(l => ({ id: l.teacher, text: 'Викладач: ' + l.teacher })))],
+                instances: [...new Set(response.data.map(l => l.teacher))].map(teacher => ({ id: teacher, text: 'Викладач: ' + teacher })),
             },
             {
                 fieldName: 'group',
                 title: 'Group',
-                instances: [...new Set(response.data.map(l => ({ id: l.group, text: 'Група: ' + l.group })))]
+                instances: [...new Set(response.data.map(l => l.group))].map(group => ({ id: group, text: 'Група: ' + group }))
             }]);
             setGrouping([{
                 resourceName: 'group'
