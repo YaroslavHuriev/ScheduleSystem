@@ -16,7 +16,7 @@ public class TeachersRepository : ITeachersRepository
         {
             _connection.Open();
         }
-        var query = @"SELECT ""Id"", CONCAT(""Surname"", ' ', ""FirstName"") as ""FullName""
+        var query = @"SELECT ""Id"", ""Surname"", ""FirstName""
 	        FROM schedule.""Teacher""";
         if (!string.IsNullOrEmpty(searchString))
         {
@@ -36,8 +36,8 @@ public class TeachersRepository : ITeachersRepository
             _connection.Open();
         }
         var query = @$"INSERT INTO schedule.""Teacher""(
-	        ""Id"", ""FirstName"", ""Surname""))
-            VALUES ('{id}', '{firstName}, '{surname}');";
+	        ""Id"", ""FirstName"", ""Surname"")
+            VALUES ('{id}', '{firstName}', '{surname}');";
         var command = new CommandDefinition(query);
         await _connection.ExecuteAsync(command);
         _connection.Close();

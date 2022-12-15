@@ -12,6 +12,8 @@ public static class InfrastructureServiceExtensions
         services.AddTransient<IScheduleRepository, ScheduleRepository>();
         services.AddTransient<ILessonRepository, LessonRepository>();
         services.AddTransient<IScheduleInputRepository, ScheduleInputRepository>();
+        services.AddTransient<IUserRepository, UserRepository>();
+
         return services;
     }
 }

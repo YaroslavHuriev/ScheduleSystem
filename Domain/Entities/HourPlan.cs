@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
-using MongoDB.Bson.IO;
-
+﻿
 namespace ScheduleSystem.Domain.Entities {
 	/// <summary>
 	/// План на годину
