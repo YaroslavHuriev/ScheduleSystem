@@ -1,4 +1,4 @@
-using ScheduleSystem.Infrastructure;
+using ScheduleSystem.Infrastructure.ScheduleInputRepository;
 
 class DeleteInputDataUseCase : IDeleteInputDataUseCase
 {

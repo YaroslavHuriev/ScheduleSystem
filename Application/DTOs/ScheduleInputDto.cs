@@ -13,7 +13,6 @@ namespace Schedule.Application.DTOs {
 		[JsonConstructor]
 		public ScheduleInputDto(string name, string id) {
 			Name = name;
-			//Data = JsonConvert.DeserializeObject<IEnumerable<LessonDto>>(data);
 			Id = id;
 		}
 

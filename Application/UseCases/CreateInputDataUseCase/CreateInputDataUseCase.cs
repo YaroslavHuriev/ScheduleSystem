@@ -1,9 +1,9 @@
 ﻿using Schedule.Application.DTOs;
+using ScheduleSystem.Infrastructure.ScheduleInputRepository;
 
-using ScheduleSystem.Infrastructure;
-
-namespace ScheduleSystem.Application.UseCases.CreateInputDataUseCase {
-	public class CreateInputDataUseCase : ICreateInputDataUseCase {
+namespace ScheduleSystem.Application.UseCases.CreateInputDataUseCase
+{
+    public class CreateInputDataUseCase : ICreateInputDataUseCase {
 		private readonly IScheduleInputRepository _scheduleInputRepository;
 
 		public CreateInputDataUseCase(IScheduleInputRepository scheduleInputRepository) {

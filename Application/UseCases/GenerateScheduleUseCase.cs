@@ -1,11 +1,12 @@
 ﻿using ScheduleSystem.Application.DTOs;
 using ScheduleSystem.Domain.Entities;
-using ScheduleSystem.Infrastructure;
 using ScheduleSystem.Infrastructure.LessonTimeRepository;
+using ScheduleSystem.Infrastructure.ScheduleInputRepository;
 using ScheduleSystem.Infrastructure.ScheduleRepository;
 
-namespace ScheduleSystem.Application.UseCases {
-	public class GenerateScheduleUseCase : IGenerateScheduleUseCase {
+namespace ScheduleSystem.Application.UseCases
+{
+    public class GenerateScheduleUseCase : IGenerateScheduleUseCase {
 		private readonly IScheduleInputRepository _scheduleInputRepository;
 		private readonly IScheduleRepository _scheduleRepository;
 		private readonly ILessonTimeRepository _lessonTimeRepository;

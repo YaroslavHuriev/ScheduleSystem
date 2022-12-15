@@ -1,9 +1,9 @@
 ﻿using Schedule.Application.DTOs;
+using ScheduleSystem.Infrastructure.ScheduleInputRepository;
 
-using ScheduleSystem.Infrastructure;
-
-namespace ScheduleSystem.Application.Handlers.ScheduleInputQueryHandler {
-	public class ScheduleInputQueryHandler : IScheduleInputQueryHandler {
+namespace ScheduleSystem.Application.Handlers.ScheduleInputQueryHandler
+{
+    public class ScheduleInputQueryHandler : IScheduleInputQueryHandler {
 		private readonly IScheduleInputRepository _scheduleInputRepository;
 		public ScheduleInputQueryHandler(IScheduleInputRepository scheduleInputRepository) {
 			_scheduleInputRepository = scheduleInputRepository;
