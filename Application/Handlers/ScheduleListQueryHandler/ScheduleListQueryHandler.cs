@@ -10,8 +10,8 @@ public class ScheduleListQueryHandler : IScheduleListQueryHandler
         _scheduleRepository = scheduleRepository;
     }
 
-    public async Task<IEnumerable<ScheduleDto>> Handle()
+    public async Task<IEnumerable<ScheduleDto>> Handle(bool currentSchedule = false)
     {
-        return await _scheduleRepository.GetScheduleList();
+        return await _scheduleRepository.GetScheduleList(currentSchedule);
     }
 }

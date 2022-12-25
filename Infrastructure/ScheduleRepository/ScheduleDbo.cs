@@ -7,13 +7,15 @@ namespace ScheduleSystem.Infrastructure.ScheduleRepository
         public Guid Id { get; set; }
 
         public string Name { get; set; }
+        public bool IsCurrent { get; set; }
 
         public ScheduleDto ToDto()
         {
             return new ScheduleDto
             {
                 Id = Id.ToString(),
-                Name = Name
+                Name = Name,
+                IsCurrent = IsCurrent
             };
         }
     }

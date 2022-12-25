@@ -2,5 +2,5 @@ using ScheduleSystem.Application.DTOs;
 
 public interface IScheduleListQueryHandler
 {
-    Task<IEnumerable<ScheduleDto>> Handle();
+    Task<IEnumerable<ScheduleDto>> Handle(bool currentSchedule = false);
 }
