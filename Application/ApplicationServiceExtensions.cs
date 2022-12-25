@@ -19,6 +19,8 @@ public static class ApplicationServiceExtensions
         services.AddTransient<IDeleteTeacherUseCase, DeleteTeacherUseCase>();
         services.AddTransient<ILoginUseCase, LoginUseCase>();
         services.AddTransient<ICreateUserUseCase, CreateUserUseCase>();
+        services.AddTransient<IUpdateSettingsUseCase, UpdateSettingsUseCase>();
+        services.AddTransient<IMakeScheduleCurrentUseCase, MakeScheduleCurrentUseCase>();
         return services;
     }
 
@@ -32,6 +34,7 @@ public static class ApplicationServiceExtensions
         services.AddTransient<IGetGroupsListQueryHandler, GetGroupsListQueryHandler>();
         services.AddTransient<ILessonsListQueryHandler, LessonsListQueryHandler>();
         services.AddTransient<IGetLessonByIdQueryHandler, GetLessonByIdQueryHandler>();
+        services.AddTransient<IGetSettingsQueryHandler, GetSettingsQueryHandler>();
         return services;
     }
 }
