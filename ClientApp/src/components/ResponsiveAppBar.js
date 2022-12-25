@@ -16,7 +16,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const pages = [
     {
-        path: 'fetch-data',
+        path: 'scheduleinputdata',
         label: 'Вхідні дані',
         adminOnly: true
     },
@@ -33,6 +33,11 @@ const pages = [
     {
         path: 'teacher',
         label: 'Викладачі',
+        adminOnly: true
+    },
+    {
+        path: 'settings',
+        label: 'Налаштування',
         adminOnly: true
     }
 ];
@@ -83,8 +88,6 @@ function ResponsiveAppBar() {
                         <Typography
                             variant="h6"
                             noWrap
-                            component="a"
-                            href="/"
                             sx={{
                                 mr: 2,
                                 display: { xs: 'none', md: 'flex' },
@@ -95,7 +98,7 @@ function ResponsiveAppBar() {
                                 textDecoration: 'none',
                             }}
                         >
-                            Schedule
+                            Розклад занять
                         </Typography>
 
                         <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -141,8 +144,6 @@ function ResponsiveAppBar() {
                         <Typography
                             variant="h5"
                             noWrap
-                            component="a"
-                            href=""
                             sx={{
                                 mr: 2,
                                 display: { xs: 'flex', md: 'none' },

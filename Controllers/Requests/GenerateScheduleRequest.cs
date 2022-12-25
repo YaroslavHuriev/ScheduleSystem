@@ -6,6 +6,8 @@ namespace ScheduleSystem.Controllers.Requests {
 	public class GenerateScheduleRequest {
 		[ValidGuid, Required]
 		public string InputDataId { get; set; }
+		[Required]
+		public string Name { get; set; }
 
 	}
 }

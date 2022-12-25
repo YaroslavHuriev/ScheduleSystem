@@ -101,7 +101,7 @@ export function SchedulesList(props) {
                 <TableHeaderRow />
                 <TableEditRow />
                 <TableEditColumn
-                    showDeleteCommand
+                    showDeleteCommand={localStorage.getItem("username") === "admin"}
                     messages={editColumnMessages}
                 />
                 <PagingPanel />

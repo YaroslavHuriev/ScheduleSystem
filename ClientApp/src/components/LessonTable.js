@@ -15,7 +15,7 @@ import {
 } from '@devexpress/dx-react-grid-material-ui';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Grid as MUIGrid } from '@mui/material';
+import { DialogContentText, Grid as MUIGrid } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -29,6 +29,7 @@ import {
 } from '@devexpress/dx-react-core';
 import { AsyncSearchSelect } from './AsyncSearchSelect';
 import { AsyncSearchTeacherSelect } from './AsyncSearchTeacherSelect';
+import { ErrorSnackBar } from './ErrorSnackbar';
 
 const columns = [
     { name: 'group', title: 'Група' },
@@ -36,17 +37,6 @@ const columns = [
     { name: 'room', title: 'Аудиторія' },
     { name: 'discipline', title: 'Предмет' }
 ];
-
-const TableRow = ({ row, ...restProps }) => (
-    <Table.Row
-        {...restProps}
-        // onClick={() => navigate(`/scheduleinputdata/${row.id}`)}
-        style={{
-            
-            cursor: 'pointer'
-        }}
-    />
-);
 
 const getRowId = row => row.id;
 
@@ -190,17 +180,34 @@ const PopupEditing = React.memo(({ popupComponent: Popup }) => (
 
 
 export function LessonTable(props) {
+    const [openGenerateDialog, setOpenGenerateDialog] = useState(false);
+    const [scheduleName, setScheduleName] = useState('');
     const [rows, setRows] = useState([]);
     const [loading, setLoading] = useState(true);
     const [buttonLoading, setButtonLoading] = useState(false);
     const navigate = useNavigate();
     const params = useParams();
+    const handleGenerateDialogClose = () => {
+        setOpenGenerateDialog(false);
+      };
     useEffect(() => {
         axios.get(`api/lessons?inputDataId=${params.id}`).then((response) => {
             setRows(response.data);
             setLoading(false)
         })
     }, [])
+
+    const [snackbarState, setSnackbarState] = React.useState({
+        open: false,
+        message: ''
+    });
+
+    const handleSnackbarClose = (event, reason) => {
+        setSnackbarState({
+            ...snackbarState,
+            open: false
+        });
+    };
 
     const commitChanges = ({ added, changed }) => {
         let changedRows;
@@ -224,7 +231,6 @@ export function LessonTable(props) {
         if (changed) {
             changedRows = rows.map(row => (changed[row.id] ? { ...row, ...changed[row.id] } : row));
         }
-        // setRows(changedRows);
     };
 
     let contents = loading
@@ -247,26 +253,31 @@ export function LessonTable(props) {
                     <EditingState
                         onCommitChanges={commitChanges}
                     />
-                    <Table messages={{noData:'Немає даних'}} rowComponent={TableRow}
-                     />
+                    <Table messages={{ noData: 'Немає даних' }}
+                    />
                     <TableHeaderRow />
                     {/* <TableEditRow /> */}
                     <TableEditColumn
+                        messages={{ addCommand: 'Додати', deleteCommand: 'Видалити' }}
                         showAddCommand
                         showDeleteCommand
                     />
                     <PopupEditing popupComponent={Popup} />
-                    <PagingPanel />
+                    <PagingPanel messages={{ info: (parameters) => `${parameters.from}-${parameters.to} із ${parameters.count}` }} />
                 </Grid>
             </MUIGrid>
             <MUIGrid item xs={2}>
                 <LoadingButton
                     onClick={() => {
-                        setButtonLoading(!buttonLoading)
-                        axios.post('api/schedules', { inputDataId: params.id }).then((response) => {
-                            console.log(response)
-                            navigate(`/schedule/${response.data}`)
-                        })
+                        if (!rows || rows.length === 0) {
+                            setSnackbarState({ open: true, message: 'Помилка: вхідні дані порожні.' })
+                            return;
+                        }
+                        setOpenGenerateDialog(true);
+                        // setButtonLoading(!buttonLoading)
+                        // axios.post('api/schedules', { inputDataId: params.id }).then((response) => {
+                        //     navigate(`/schedule/${response.data}`)
+                        // })
                     }}
                     loading={buttonLoading}
                     loadingPosition="end"
@@ -277,6 +288,38 @@ export function LessonTable(props) {
                     Згенерувати розклад
                 </LoadingButton>
             </MUIGrid>
+            <ErrorSnackBar
+                open={snackbarState.open}
+                message={snackbarState.message}
+                handleClose={handleSnackbarClose} />
+            <Dialog open={openGenerateDialog} onClose={handleGenerateDialogClose}>
+                <DialogTitle>Генерація розкладу</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        Будь ласка введіть назву для нового розкладу:
+                    </DialogContentText>
+                    <TextField
+                        autoFocus
+                        onChange={(event) => setScheduleName(event.target.value)}
+                        margin="dense"
+                        id="name"
+                        value={scheduleName}
+                        label="Назва розкладу"
+                        fullWidth
+                        variant="standard"
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleGenerateDialogClose}>Відмінити</Button>
+                    <Button variant='contained' onClick={() => {
+                        setOpenGenerateDialog(false)
+                        setButtonLoading(!buttonLoading)
+                        axios.post('api/schedules', { inputDataId: params.id, name: scheduleName }).then((response) => {
+                            navigate(`/schedule/${response.data}`)
+                        })
+                    }}>Згенерувати</Button>
+                </DialogActions>
+            </Dialog>
         </MUIGrid>;
 
     return (

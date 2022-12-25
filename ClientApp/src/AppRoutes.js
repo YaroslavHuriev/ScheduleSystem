@@ -1,19 +1,16 @@
 import { FetchData } from "./components/FetchData";
 import { GroupsList } from "./components/GroupsList";
-import { Home } from "./components/Home";
 import { LessonTable } from "./components/LessonTable";
 import { Schedule } from "./components/Schedule";
 import { SchedulesList } from "./components/SchedulesList";
+import Settings from "./components/Settings";
 import SignIn from "./components/SignIn";
 import SignUp from "./components/SignUp";
 import { TeachersList } from "./components/TeachersList";
 
 const AppRoutes = [
   {
-    element: <Home />
-  },
-  {
-    path: '/fetch-data',
+    path: '/scheduleinputdata',
     element: <FetchData />
   },
   {
@@ -43,6 +40,10 @@ const AppRoutes = [
   {
     path: '/signup',
     element: <SignUp />
+  },
+  {
+    path: '/settings',
+    element: <Settings />
   }
 ];
 

@@ -16,7 +16,6 @@ import {
     PagingPanel,
 } from '@devexpress/dx-react-grid-material-ui';
 import { SuccessSnackBar } from './SuccessSnackBar';
-import { Paper } from '@mui/material';
 import axios from './AxiosInterceptor'
 import { TableRow } from './TableRow';
 const editColumnMessages = {
@@ -123,7 +122,7 @@ export function FetchData(props) {
                     showDeleteCommand
                     messages={editColumnMessages}
                 />
-                <PagingPanel />
+                <PagingPanel messages={{info:(parameters)=>`${parameters.from}-${parameters.to} із ${parameters.count}`}} />
             </Grid>
             <SuccessSnackBar
                 open={snackbarState.open}
