@@ -17,6 +17,7 @@ import {
     GroupingPanel
 } from '@devexpress/dx-react-scheduler-material-ui';
 import { Button } from '@mui/material';
+import CenteredCircularProgress from './CenteredCircularProgress';
 
 const hourMap = [
     { hour: 0, startTime: 'T08:00', endTime: 'T09:20' },
@@ -78,7 +79,7 @@ export function Schedule(props) {
         })
     }, [])
     let contents = loading
-        ? <CircularProgress />
+        ? <CenteredCircularProgress />
         : <Paper sx={{ mt: 4 }} >
             <Button hidden={localStorage.getItem("username") !== "admin"} variant="contained" disabled={currentScheduleButtonState.isDisabled} onClick={makeScheduleCurrent}>{currentScheduleButtonState.text}</Button>
             <Scheduler

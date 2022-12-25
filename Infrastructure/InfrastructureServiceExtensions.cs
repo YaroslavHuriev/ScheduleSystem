@@ -1,4 +1,3 @@
-using ScheduleSystem.Infrastructure;
 using ScheduleSystem.Infrastructure.LessonTimeRepository;
 using ScheduleSystem.Infrastructure.ScheduleInputRepository;
 using ScheduleSystem.Infrastructure.ScheduleRepository;

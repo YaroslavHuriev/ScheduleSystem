@@ -18,6 +18,7 @@ import {
 import axios from './AxiosInterceptor'
 import { SuccessSnackBar } from './SuccessSnackBar';
 import { TableRow } from './TableRow';
+import CenteredCircularProgress from './CenteredCircularProgress';
 
 const editColumnMessages = {
     addCommand: 'Додати',
@@ -60,7 +61,7 @@ export function SchedulesList(props) {
     const Row = ({ row, ...restProps }) => (
         <TableRow
             {...restProps}
-            onClick={() =>navigate(`/schedule/${row.id}`)}
+            onClick={() => navigate(`/schedule/${row.id}`)}
         />
     );
 
@@ -79,8 +80,10 @@ export function SchedulesList(props) {
 
 
     let contents = loading
-        ? <Box sx={{ display: 'flex' }}>
-            <CircularProgress />
+        ? <Box sx={{
+            display: 'flex'
+        }}>
+            <CenteredCircularProgress />
         </Box>
         : <Box sx={{ height: 400, width: '100%', mt: 4 }}>
             <Grid
@@ -92,7 +95,7 @@ export function SchedulesList(props) {
                     defaultCurrentPage={0}
                     pageSize={5}
                 />
-                
+
                 <IntegratedPaging />
                 <EditingState
                     onCommitChanges={commitChanges}
@@ -104,7 +107,7 @@ export function SchedulesList(props) {
                     showDeleteCommand={localStorage.getItem("username") === "admin"}
                     messages={editColumnMessages}
                 />
-                <PagingPanel />
+                <PagingPanel messages={{info:(parameters)=>`${parameters.from}-${parameters.to} із ${parameters.count}`}} />
             </Grid>
         </Box>;
 

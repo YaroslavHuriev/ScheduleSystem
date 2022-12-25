@@ -18,6 +18,8 @@ import {
 import { SuccessSnackBar } from './SuccessSnackBar';
 import axios from './AxiosInterceptor'
 import { TableRow } from './TableRow';
+import CenteredCircularProgress from './CenteredCircularProgress';
+import GridCommandButton from './GridCommandButton';
 const editColumnMessages = {
     addCommand: 'Додати',
     editCommand: 'Редагувати',
@@ -98,7 +100,7 @@ export function FetchData(props) {
 
     let contents = loading
         ? <Box sx={{ display: 'flex' }}>
-            <CircularProgress />
+            <CenteredCircularProgress />
         </Box>
         : <Box sx={{ height: 400, width: '100%', mt: 4 }}>
             <Grid
@@ -120,6 +122,7 @@ export function FetchData(props) {
                 <TableEditColumn
                     showAddCommand
                     showDeleteCommand
+                    commandComponent={GridCommandButton}
                     messages={editColumnMessages}
                 />
                 <PagingPanel messages={{info:(parameters)=>`${parameters.from}-${parameters.to} із ${parameters.count}`}} />

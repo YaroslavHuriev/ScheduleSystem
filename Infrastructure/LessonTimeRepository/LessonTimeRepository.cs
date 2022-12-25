@@ -27,7 +27,7 @@ namespace ScheduleSystem.Infrastructure.LessonTimeRepository {
 			if (_connection.State != ConnectionState.Open) {
 				_connection.Open();
 			}
-			var query = @$"SELECT lt.""Id"" as ""Id"", ""g"".""Name"" as ""Group"", ""t"".""Surname"" as ""Teacher"", l.""Discipline"", l.""Room"", lt.""Day"", lt.""Hour""
+			var query = @$"SELECT lt.""Id"" as ""Id"", ""g"".""Name"" as ""Group"", CONCAT(""t"".""Surname"",' ',""t"".""FirstName"") as ""Teacher"", l.""Discipline"", l.""Room"", lt.""Day"", lt.""Hour""
 				FROM schedule.""Lessons"" as l
 				inner join schedule.""LessonTime"" as lt
 				on l.""Id""=lt.""LessonId""

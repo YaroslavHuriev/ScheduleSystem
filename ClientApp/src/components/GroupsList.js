@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import { EditingState } from '@devexpress/dx-react-grid';
-import CircularProgress from '@mui/material/CircularProgress';
 import { useNavigate } from "react-router-dom";
 import {
     PagingState,
@@ -17,6 +16,8 @@ import {
 } from '@devexpress/dx-react-grid-material-ui';
 import { SuccessSnackBar } from './SuccessSnackBar';
 import axios from './AxiosInterceptor'
+import CenteredCircularProgress from './CenteredCircularProgress';
+import GridCommandButton from './GridCommandButton';
 
 const editColumnMessages = {
     addCommand: 'Додати',
@@ -90,7 +91,7 @@ export function GroupsList(props) {
 
     let contents = loading
         ? <Box sx={{ display: 'flex' }}>
-            <CircularProgress />
+            <CenteredCircularProgress/>
         </Box>
         : <Box sx={{ height: 400, width: '100%', mt: 4 }}>
             <Grid
@@ -112,9 +113,10 @@ export function GroupsList(props) {
                 <TableEditColumn
                     showAddCommand
                     showDeleteCommand
+                    commandComponent={GridCommandButton}
                     messages={editColumnMessages}
                 />
-                <PagingPanel />
+                <PagingPanel messages={{info:(parameters)=>`${parameters.from}-${parameters.to} із ${parameters.count}`}} />
             </Grid>
             <SuccessSnackBar
                 open={snackbarState.open}

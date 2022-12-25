@@ -30,6 +30,7 @@ import {
 import { AsyncSearchSelect } from './AsyncSearchSelect';
 import { AsyncSearchTeacherSelect } from './AsyncSearchTeacherSelect';
 import { ErrorSnackBar } from './ErrorSnackbar';
+import CenteredCircularProgress from './CenteredCircularProgress';
 
 const columns = [
     { name: 'group', title: 'Група' },
@@ -235,7 +236,7 @@ export function LessonTable(props) {
 
     let contents = loading
         ? <Box sx={{ display: 'flex' }}>
-            <CircularProgress />
+            <CenteredCircularProgress />
         </Box>
         : <MUIGrid container spacing={2} justifyContent="flex-end"
             alignItems="flex-end">

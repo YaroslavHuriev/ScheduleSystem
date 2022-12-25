@@ -17,6 +17,8 @@ import {
     PagingPanel,
 } from '@devexpress/dx-react-grid-material-ui';
 import { SuccessSnackBar } from './SuccessSnackBar';
+import CenteredCircularProgress from './CenteredCircularProgress';
+import GridCommandButton from './GridCommandButton';
 
 const editColumnMessages = {
     addCommand: 'Додати',
@@ -91,7 +93,7 @@ export function TeachersList(props) {
 
     let contents = loading
         ? <Box sx={{ display: 'flex' }}>
-            <CircularProgress />
+            <CenteredCircularProgress />
         </Box>
         : <Box sx={{ height: 400, width: '100%', mt: 4 }}>
             <Grid
@@ -113,9 +115,10 @@ export function TeachersList(props) {
                 <TableEditColumn
                     showAddCommand
                     showDeleteCommand
+                    commandComponent={GridCommandButton}
                     messages={editColumnMessages}
                 />
-                <PagingPanel />
+                <PagingPanel messages={{info:(parameters)=>`${parameters.from}-${parameters.to} із ${parameters.count}`}} />
             </Grid>
             <SuccessSnackBar
                 open={snackbarState.open}
