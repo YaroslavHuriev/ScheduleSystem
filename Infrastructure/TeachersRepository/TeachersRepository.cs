@@ -37,8 +37,8 @@ public class TeachersRepository : ITeachersRepository
         }
         var query = @$"INSERT INTO schedule.""Teacher""(
 	        ""Id"", ""FirstName"", ""Surname"")
-            VALUES ('{id}', '{firstName}', '{surname}');";
-        var command = new CommandDefinition(query);
+            VALUES (@Id, @FirstName, @Surname);";
+        var command = new CommandDefinition(query, new{Id=Guid.Parse(id),FirstName=firstName,Surname=surname});
         await _connection.ExecuteAsync(command);
         _connection.Close();
     }
@@ -50,8 +50,8 @@ public class TeachersRepository : ITeachersRepository
             _connection.Open();
         }
         var query = @$"DELETE FROM schedule.""Teacher""
-	        WHERE schedule.""Teacher"".""Id""='{id}';";
-        var command = new CommandDefinition(query);
+	        WHERE schedule.""Teacher"".""Id""=@Id;";
+        var command = new CommandDefinition(query, new{Id=Guid.Parse(id)});
         await _connection.ExecuteAsync(command);
         _connection.Close();
     }

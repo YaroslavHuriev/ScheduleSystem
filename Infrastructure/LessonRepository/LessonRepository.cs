@@ -20,8 +20,8 @@ class LessonRepository : ILessonRepository
 				FROM schedule.""Lessons"" as ""Lessons""
 				INNER JOIN schedule.""Teacher"" as ""Teacher"" on ""Lessons"".""TeacherId"" = ""Teacher"".""Id""
 				INNER JOIN schedule.""Group"" as ""Group"" on ""Lessons"".""GroupId""=""Group"".""Id""
-				WHERE ""Lessons"".""inputdataid""='{inputDataId}';";
-        var command = new CommandDefinition(query);
+				WHERE ""Lessons"".""inputdataid""=@InputDataId;";
+        var command = new CommandDefinition(query,new{InputDataId=Guid.Parse(inputDataId)});
         var dbos = await _connection.QueryAsync<LessonDbo>(command);
         _connection.Close();
         return dbos.Select(dbo => dbo.ToDto());
@@ -37,8 +37,8 @@ class LessonRepository : ILessonRepository
 				FROM schedule.""Lessons"" as ""Lessons""
 				INNER JOIN schedule.""Teacher"" as ""Teacher"" on ""Lessons"".""TeacherId"" = ""Teacher"".""Id""
 				INNER JOIN schedule.""Group"" as ""Group"" on ""Lessons"".""GroupId""=""Group"".""Id""
-				WHERE ""Lessons"".""Id""='{id}';";
-        var command = new CommandDefinition(query);
+				WHERE ""Lessons"".""Id""=@Id;";
+        var command = new CommandDefinition(query, new{Id=Guid.Parse(id)});
         var dbo = await _connection.QuerySingleAsync<LessonDbo>(command);
         _connection.Close();
         return dbo.ToDto();
@@ -52,8 +52,15 @@ class LessonRepository : ILessonRepository
         }
         var query = @$"INSERT INTO schedule.""Lessons""(
             ""Id"", ""GroupId"", ""TeacherId"", ""Discipline"", inputdataid, ""Room"")
-            VALUES ('{id}', '{groupId}', '{teacherId}', '{discipline}', '{inputDataId}', {room});";
-        var command = new CommandDefinition(query);
+            VALUES (@Id, @GroupId, @TeacherId, @Discipline, @InputDataId, @Room);";
+        var command = new CommandDefinition(query, new{
+            Id = id,
+            GroupId = Guid.Parse(groupId),
+            TeacherId = Guid.Parse(teacherId),
+            Discipline = discipline,
+            InputDataId = Guid.Parse(inputDataId),
+            Room = room
+        });
         await _connection.ExecuteAsync(command);
         _connection.Close();
         return id.ToString();

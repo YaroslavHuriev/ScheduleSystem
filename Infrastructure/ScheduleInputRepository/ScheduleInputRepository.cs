@@ -22,8 +22,8 @@ namespace ScheduleSystem.Infrastructure.ScheduleInputRepository
             }
             var query = @$"INSERT INTO schedule.""InputData""(
 				""Id"", ""Name"")
-				VALUES ('{document.Id}', '{document.Name}');";
-            var command = new CommandDefinition(query);
+				VALUES (@Id, @Name);";
+            var command = new CommandDefinition(query, new{Id=Guid.Parse(document.Id), Name=document.Name});
             await _connection.ExecuteAsync(command);
             _connection.Close();
         }
@@ -35,8 +35,8 @@ namespace ScheduleSystem.Infrastructure.ScheduleInputRepository
                 _connection.Open();
             }
             var query = @$"DELETE FROM schedule.""InputData"" AS ""InputData""
-				WHERE ""InputData"".""Id""='{id}';";
-            var command = new CommandDefinition(query);
+				WHERE ""InputData"".""Id""=@Id;";
+            var command = new CommandDefinition(query,new{Id=Guid.Parse(id)});
             await _connection.ExecuteAsync(command);
             _connection.Close();
         }
@@ -68,9 +68,9 @@ namespace ScheduleSystem.Infrastructure.ScheduleInputRepository
 				INNER JOIN schedule.""Teacher"" as ""Teacher"" on ""Lessons"".""TeacherId"" = ""Teacher"".""Id""
 				INNER JOIN schedule.""Group"" as ""Group"" on ""Lessons"".""GroupId""=""Group"".""Id""
 				INNER JOIN schedule.""InputData"" as ""InputData"" on ""Lessons"".""inputdataid""=""InputData"".""Id""
-				WHERE ""InputData"".""Id""='{id}'	
+				WHERE ""InputData"".""Id""=@Id	
 				GROUP BY ""InputData"".""Name"",""InputData"".""Id"";";
-            var command = new CommandDefinition(query);
+            var command = new CommandDefinition(query, new{Id=Guid.Parse(id)});
             var dbo = await _connection.QuerySingleAsync<ScheduleInputDbo>(command);
             _connection.Close();
             return dbo.ToDto();

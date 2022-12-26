@@ -16,8 +16,8 @@ public class UserRepository : IUserRepository
         }
         var query = @$"SELECT ""UserName"", ""Password"", schedule.""Role"".""Name"" as ""Role""
 	        FROM schedule.""User"" INNER JOIN schedule.""Role"" ON schedule.""User"".""RoleId""=schedule.""Role"".""Id""
-            WHERE schedule.""User"".""UserName""='{email}';";
-        var command = new CommandDefinition(query);
+            WHERE schedule.""User"".""UserName""=@Email;";
+        var command = new CommandDefinition(query, new {Email = email});
         var dto = await _connection.QueryFirstOrDefaultAsync<UserDTO>(command);
         _connection.Close();
         return dto;

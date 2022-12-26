@@ -18,8 +18,8 @@ namespace ScheduleSystem.Infrastructure.ScheduleRepository {
 			}
 			var query = @$"INSERT INTO schedule.""Schedule""(
 				""Id"", ""Name"")
-				VALUES ('{schedule.Id}', '{schedule.Name}');";
-			var command = new CommandDefinition(query);
+				VALUES (@Id, @Name);";
+			var command = new CommandDefinition(query, new {Id = Guid.Parse(schedule.Id), Name = schedule.Name});
 			await _connection.ExecuteAsync(command);
 			_connection.Close();
 		}
@@ -58,8 +58,8 @@ namespace ScheduleSystem.Infrastructure.ScheduleRepository {
 				_connection.Open();
 			}
 			var query = @$"DELETE FROM schedule.""Schedule""
-				WHERE ""Schedule"".""Id""='{id}';";
-			var command = new CommandDefinition(query);
+				WHERE ""Schedule"".""Id""=@Id;";
+			var command = new CommandDefinition(query, new{Id=Guid.Parse(id)});
 			var dbos = await _connection.ExecuteAsync(command);
 			_connection.Close();
 		}

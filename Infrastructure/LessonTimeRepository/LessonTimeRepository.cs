@@ -35,8 +35,8 @@ namespace ScheduleSystem.Infrastructure.LessonTimeRepository {
 				on l.""GroupId""=""g"".""Id""
 				inner join schedule.""Teacher"" as ""t""
 				on l.""TeacherId""=""t"".""Id""
-				WHERE lt.""ScheduleId""='{scheduleId}';";
-			var command = new CommandDefinition(query);
+				WHERE lt.""ScheduleId""=@ScheduleId;";
+			var command = new CommandDefinition(query, new{ScheduleId=Guid.Parse(scheduleId)});
 			var dbos = await _connection.QueryAsync<LessonWithTimeDbo>(command);
 			return dbos.Select(dbo => dbo.ToDto());
 		}

@@ -37,8 +37,8 @@ public class GroupRepository : IGroupRepository
         }
         var query = @$"INSERT INTO schedule.""Group""(
             ""Id"", ""Name"")
-            VALUES ('{id}', '{name}');";
-        var command = new CommandDefinition(query);
+            VALUES (@Id, @Name);";
+        var command = new CommandDefinition(query, new{Id=Guid.Parse(id),Name=name});
         await _connection.ExecuteAsync(command);
         _connection.Close();
     }
@@ -50,8 +50,8 @@ public class GroupRepository : IGroupRepository
             _connection.Open();
         }
         var query = @$"DELETE FROM schedule.""Group""
-	        WHERE schedule.""Group"".""Id""='{id}';";
-        var command = new CommandDefinition(query);
+	        WHERE schedule.""Group"".""Id""=@Id;";
+        var command = new CommandDefinition(query, new{Id=Guid.Parse(id)});
         await _connection.ExecuteAsync(command);
         _connection.Close();
     }
